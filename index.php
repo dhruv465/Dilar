@@ -1,108 +1,157 @@
 <?php
 session_start();
 
-
-
 // Your database configuration
 include('./dbconnection.php');
 
-$response_msg = '';
+// List of allowed IP addresses
+$allowedIPs = array(
+    '103.124.143.30',
+    '103.124.143.31',
+    '103.124.143.32',
+    '103.124.143.33',
+    '103.124.143.34',
+    '103.124.143.35',
+    '103.124.143.36',
+    '103.124.143.37',
+    '103.124.143.38',
+    '103.124.143.39',
+    '103.124.143.40',
+    '103.121.71.217',
+    '103.124.143.34',
+    '103.35.134.238'
+);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
-  $username = htmlspecialchars($_POST['username']);
-  $password = htmlspecialchars($_POST['password']);
+// Get the visitor's IP address
+$visitorIP = $_SERVER['REMOTE_ADDR'];
 
-  $query = 'SELECT UserID, Password, SessionActive FROM Users WHERE Username = ?';
-  $stmt = mysqli_prepare($conn, $query);
+// Check if the visitor's IP is in the allowed list
+if (in_array($visitorIP, $allowedIPs)) {
+    // IP address is allowed, proceed with login form processing
+    $response_msg = '';
 
-  mysqli_stmt_bind_param($stmt, 's', $username);
-  mysqli_stmt_execute($stmt);
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
+        $username = htmlspecialchars($_POST['username']);
+        $password = htmlspecialchars($_POST['password']);
 
-  $result = mysqli_stmt_get_result($stmt);
+        $query = 'SELECT UserID, Password, SessionActive FROM Users WHERE Username = ?';
+        $stmt = mysqli_prepare($conn, $query);
 
-  if (mysqli_num_rows($result) == 1) {
-    $user = mysqli_fetch_assoc($result);
-    if (password_verify($password, $user['Password'])) {
-      if ($user['SessionActive'] == true) {
-        $response_msg = '<div id="dismiss-alert" class="hs-removing:translate-x-5 hs-removing:opacity-0 transition duration-300 bg-red-50 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500" role="alert">
-        <div class="flex">
-          <div class="flex-shrink-0">
-            <svg class="flex-shrink-0 size-4 text-red-600 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
-          </div>
-          <div class="ms-2">
-            <div class="text-sm font-medium">
-              Another session is active for this user. Please try again later.
-            </div>
-          </div>
-          <div class="ps-3 ms-auto">
-            <div class="-mx-1.5 -my-1.5">
-              <button type="button" class="inline-flex bg-red-50 rounded-lg p-1.5 text-red-500 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-red-50 focus:ring-red-600 dark:bg-transparent dark:hover:bg-red-800/50 dark:text-red-600" data-hs-remove-element="#dismiss-alert">
-                <span class="sr-only">Dismiss</span>
-                <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>';
-      } else {
-        $_SESSION['userID'] = $user['UserID'];
-        $_SESSION['username'] = $username;
-        $query_update = 'UPDATE Users SET SessionActive = true WHERE UserID = ?';
-        $stmt_update = mysqli_prepare($conn, $query_update);
-        mysqli_stmt_bind_param($stmt_update, 'i', $user['UserID']);
-        mysqli_stmt_execute($stmt_update);
+        mysqli_stmt_bind_param($stmt, 's', $username);
+        mysqli_stmt_execute($stmt);
 
-        header('Location: modal.php');
-        exit;
+        $result = mysqli_stmt_get_result($stmt);
+
+        if (mysqli_num_rows($result) == 1) {
+            $user = mysqli_fetch_assoc($result);
+            if (password_verify($password, $user['Password'])) {
+                if ($user['SessionActive'] == true) {
+                    $response_msg = '<div id="dismiss-alert" class="hs-removing:translate-x-5 hs-removing:opacity-0 transition duration-300 bg-red-50 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500" role="alert">
+                    <div class="flex">
+                      <div class="flex-shrink-0">
+                        <svg class="flex-shrink-0 size-4 text-red-600 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                      </div>
+                      <div class="ms-2">
+                        <div class="text-sm font-medium">
+                          Another session is active for this user. Please try again later.
+                        </div>
+                      </div>
+                      <div class="ps-3 ms-auto">
+                        <div class="-mx-1.5 -my-1.5">
+                          <button type="button" class="inline-flex bg-red-50 rounded-lg p-1.5 text-red-500 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-red-50 focus:ring-red-600 dark:bg-transparent dark:hover:bg-red-800/50 dark:text-red-600" data-hs-remove-element="#dismiss-alert">
+                            <span class="sr-only">Dismiss</span>
+                            <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>';
+                } else {
+                    $_SESSION['userID'] = $user['UserID'];
+                    $_SESSION['username'] = $username;
+                    $query_update = 'UPDATE Users SET SessionActive = true WHERE UserID = ?';
+                    $stmt_update = mysqli_prepare($conn, $query_update);
+                    mysqli_stmt_bind_param($stmt_update, 'i', $user['UserID']);
+                    mysqli_stmt_execute($stmt_update);
+
+                    header('Location: modal.php');
+                    exit;
+                }
+            } else {
+                // Password is incorrect
+                $response_msg = '<div id="dismiss-alert" class="hs-removing:translate-x-5 hs-removing:opacity-0 transition duration-300 bg-red-50 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500" role="alert">
+                    <div class="flex">
+                      <div class="flex-shrink-0">
+                        <svg class="flex-shrink-0 size-4 text-red-600 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                      </div>
+                      <div class="ms-2">
+                        <div class="text-sm font-medium">
+                          Invalid username or password.
+                        </div>
+                      </div>
+                      <div class="ps-3 ms-auto">
+                        <div class="-mx-1.5 -my-1.5">
+                          <button type="button" class="inline-flex bg-red-50 rounded-lg p-1.5 text-red-500 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-red-50 focus:ring-red-600 dark:bg-transparent dark:hover:bg-red-800/50 dark:text-red-600" data-hs-remove-element="#dismiss-alert">
+                            <span class="sr-only">Dismiss</span>
+                            <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>';
+              }
+          } else {
+              // Username does not exist
+              $response_msg = '<div id="dismiss-alert" class="hs-removing:translate-x-5 hs-removing:opacity-0 transition duration-300 bg-red-50 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500" role="alert">
+                      <div class="flex">
+                        <div class="flex-shrink-0">
+                          <svg class="flex-shrink-0 size-4 text-red-600 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                        </div>
+                        <div class="ms-2">
+                          <div class="text-sm font-medium">
+                            Invalid username or password.
+                          </div>
+                        </div>
+                        <div class="ps-3 ms-auto">
+                          <div class="-mx-1.5 -my-1.5">
+                            <button type="button" class="inline-flex bg-red-50 rounded-lg p-1.5 text-red-500 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-red-50 focus:ring-red-600 dark:bg-transparent dark:hover:bg-red-800/50 dark:text-red-600" data-hs-remove-element="#dismiss-alert">
+                              <span class="sr-only">Dismiss</span>
+                              <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>';
+          }
       }
-    } else {
-      // Password is incorrect
-      $response_msg = '<div id="dismiss-alert" class="hs-removing:translate-x-5 hs-removing:opacity-0 transition duration-300 bg-red-50 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500" role="alert">
-                    <div class="flex">
-                      <div class="flex-shrink-0">
-                        <svg class="flex-shrink-0 size-4 text-red-600 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
-                      </div>
-                      <div class="ms-2">
-                        <div class="text-sm font-medium">
-                          Invalid username or password.
-                        </div>
-                      </div>
-                      <div class="ps-3 ms-auto">
-                        <div class="-mx-1.5 -my-1.5">
-                          <button type="button" class="inline-flex bg-red-50 rounded-lg p-1.5 text-red-500 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-red-50 focus:ring-red-600 dark:bg-transparent dark:hover:bg-red-800/50 dark:text-red-600" data-hs-remove-element="#dismiss-alert">
-                            <span class="sr-only">Dismiss</span>
-                            <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>';
-    }
   } else {
-    // Username does not exist
+    // IP address is not allowed, deny access
     $response_msg = '<div id="dismiss-alert" class="hs-removing:translate-x-5 hs-removing:opacity-0 transition duration-300 bg-red-50 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500" role="alert">
-                    <div class="flex">
-                      <div class="flex-shrink-0">
-                        <svg class="flex-shrink-0 size-4 text-red-600 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
-                      </div>
-                      <div class="ms-2">
-                        <div class="text-sm font-medium">
-                          Invalid username or password.
+                      <div class="flex">
+                        <div class="flex-shrink-0">
+                          <svg class="flex-shrink-0 size-4 text-red-600 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                        </div>
+                        <div class="ms-2">
+                          <div class="text-sm font-medium">
+                            Access denied. Your IP address ('.$visitorIP.') is not authorized to access this page.
+                          </div>
+                        </div>
+                        <div class="ps-3 ms-auto">
+                          <div class="-mx-1.5 -my-1.5">
+                            <button type="button" class="inline-flex bg-red-50 rounded-lg p-1.5 text-red-500 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-red-50 focus:ring-red-600 dark:bg-transparent dark:hover:bg-red-800/50 dark:text-red-600" data-hs-remove-element="#dismiss-alert">
+                              <span class="sr-only">Dismiss</span>
+                              <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                            </button>
+                          </div>
                         </div>
                       </div>
-                      <div class="ps-3 ms-auto">
-                        <div class="-mx-1.5 -my-1.5">
-                          <button type="button" class="inline-flex bg-red-50 rounded-lg p-1.5 text-red-500 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-red-50 focus:ring-red-600 dark:bg-transparent dark:hover:bg-red-800/50 dark:text-red-600" data-hs-remove-element="#dismiss-alert">
-                            <span class="sr-only">Dismiss</span>
-                            <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>';
-  }
+                    </div>';
+    
 }
-?>
+
+  ?>
+  
+
 
 <!DOCTYPE html>
 <html lang="en" class="h-full">
