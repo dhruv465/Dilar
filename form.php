@@ -169,7 +169,7 @@ include 'header.php';
                     <div class="ms-2">
                         <div class="text-sm font-medium">
                             No data available for the selected category. 
-                            <a href="modal.php">Get new data</a>
+                            <a href="modal.php" class="underline">Get new data</a>
                         </div>
                     </div>
                 </div>
@@ -249,7 +249,10 @@ include 'header.php';
                       <option value="Follow-Up">Follow-Up</option>
                       <option value="Ringing">Ringing</option>
                       <option value="Vkyc Done">Vkyc Done</option>
-                      <option value="Switch Off">Switch Off</option><option value="Already Carded">Already Carded</option><option value="Disconnect">Disconnect</option>
+                      <option value="Not Eligible">Not Eligible</option>
+                      <option value="Switch Off">Switch Off</option>
+                      <option value="Already Carded">Already Carded</option>
+                      <option value="Disconnect">Disconnect</option>
                     </select>
                   </div>
 
