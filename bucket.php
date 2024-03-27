@@ -17,6 +17,7 @@ include 'header.php';
 
 <body>
 
+    <!-- Edit modal -->
     <div id="crud-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-md max-h-full">
             <!-- Modal content -->
@@ -24,7 +25,7 @@ include 'header.php';
                 <!-- Modal header -->
                 <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                        View Data
+                        Update Response
                     </h3>
                     <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -34,62 +35,39 @@ include 'header.php';
                     </button>
                 </div>
                 <!-- Modal body -->
-                <form class="p-4 md:p-5 mt-2">
-                    <input type="hidden" name="data_id" value="<?php echo $data_id; ?>"> <!-- Hidden field to store DataID -->
-
-                    <div class="grid gap-4 mb-4 sm:grid-cols-2">
-                        <div>
+                <form class="p-4 md:p-5">
+                    <div class="grid gap-4 mb-4 grid-cols-2">
+                        <div class="col-span-2">
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                            <input type="text" name="name" id="name" value="" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" value="<?php echo htmlspecialchars($row['Name']); ?>" disabled>
                         </div>
-                        <div>
-                            <label for="mobileno" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mobile No</label>
-                            <div class="flex items-center">
-                                <div class="relative w-full">
-                                    <input type="tel" name="mobileno" id="mobileno" value="" class="bg-gray-50 border border-e-0 border-gray-300 text-gray-900 text-sm rounded-l-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                </div>
-                                <button id="copy-number" class="flex-shrink-0 z-10 inline-flex items-center py-3 px-4 text-sm font-medium text-center text-gray-500 dark:text-gray-400 hover:text-gray-900 bg-gray-100 border border-gray-300 rounded-e-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:hover:text-white dark:border-gray-600" type="button">
-                                    <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M7.978 4a2.553 2.553 0 0 0-1.926.877C4.233 6.7 3.699 8.751 4.153 10.814c.44 1.995 1.778 3.893 3.456 5.572 1.68 1.679 3.577 3.018 5.57 3.459 2.062.456 4.115-.073 5.94-1.885a2.556 2.556 0 0 0 .001-3.861l-1.21-1.21a2.689 2.689 0 0 0-3.802 0l-.617.618a.806.806 0 0 1-1.14 0l-1.854-1.855a.807.807 0 0 1 0-1.14l.618-.62a2.692 2.692 0 0 0 0-3.803l-1.21-1.211A2.555 2.555 0 0 0 7.978 4Z" />
-                                    </svg>
-                                </button>
-
-                            </div>
+                        <div class="col-span-2 sm:col-span-1">
+                            <label for="tel" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone No</label>
+                            <input type="tel" name="tel" id="tel" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="<?php echo htmlspecialchars($row['Mobile']); ?>" disabled>
                         </div>
-                        <div>
-                            <label for="city" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">City</label>
-                            <input type="text" value="" name="City" id="city" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                        <div>
-                            <label for="language" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Language</label>
-                            <input type="text" value="" name="Language" id="language" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                        <div>
-                            <label for="pan" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pan</label>
-                            <input type="text" value="" name="Pan" id="pan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                        <div>
-                            <label for="prdcat" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                            <input type="text" value="" name="Prdcat" id="prdcat" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                        <div>
-                            <label for="disposition" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Disposition</label>
-                            <select id="disposition" name="disposition" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option selected disabled>Select an option</option>
-                                <option value="Sales">Sales</option>
-                                <option value="Not Interested">Not Interested</option>
-                                <option value="Call Back">Call Back</option>
-                                <option value="Wrong Number">Wrong Number</option>
-                                <option value="Follow-Up">Follow-Up</option>
-                                <option value="Ringing">Ringing</option>
+                        <div class="col-span-2 sm:col-span-1">
+                            <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Disposition</label>
+                            <select id="category" name="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                <option value="Select Option">Select Option</option>
+                                <option value="Sales" <?php if ($row['Disposition'] == 'Sales') echo 'selected'; ?>>Sales</option>
+                                <option value="Not Interested" <?php if ($row['Disposition'] == 'Not Interested') echo 'selected'; ?>>Not Interested</option>
+                                <option value="Call Back" <?php if ($row['Disposition'] == 'Call Back') echo 'selected'; ?>>Call Back</option>
+                                <option value="Wrong Number" <?php if ($row['Disposition'] == 'Wrong Number') echo 'selected'; ?>>Wrong Number</option>
+                                <option value="Follow-Up" <?php if ($row['Disposition'] == 'Follow-Up') echo 'selected'; ?>>Follow-Up</option>
+                                <option value="Ringing" <?php if ($row['Disposition'] == 'Ringing') echo 'selected'; ?>>Ringing</option>
                             </select>
                         </div>
-
                     </div>
+                    <button type="submit" id="update-btn" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Update
+                    </button>
                 </form>
+
+
             </div>
         </div>
     </div>
+
     <!-- Main modal -->
     <div class="relative z-10 mt-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity dark:bg-slate-900"></div>
@@ -154,39 +132,43 @@ include 'header.php';
                             if ($result->num_rows > 0) {
                                 // Output data of each row
                                 echo '<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-           <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-               <tr>
-                   <th scope="col" class="p-4"></th>
-                   <th scope="col" class="px-6 py-3">Name</th>
-                   <th scope="col" class="px-6 py-3">Phone NO</th>
-                   <th scope="col" class="px-6 py-3">City</th>
-                   <th scope="col" class="px-6 py-3">Language</th>
-                   <th scope="col" class="px-6 py-3">Pan</th>
-                   <th scope="col" class="px-6 py-3">Category</th>
-                   <th scope="col" class="px-6 py-3">Disposation</th>
-               </tr>
-           </thead>
-           <tbody>';
-
+                                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                            <tr>
+                                                
+                                                <th scope="col" class="px-6 py-3">Name</th>
+                                                <th scope="col" class="px-6 py-3">Mobile</th>
+                                                <th scope="col" class="px-6 py-3">Disposition</th>
+                                                <th scope="col" class="px-6 py-3">Action</th>
+                                            </tr>
+                                        </thead>
+                                      <tbody>';
                                 while ($row = $result->fetch_assoc()) {
                                     echo '<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">';
-                                    echo '<td class="w-4 p-4"></td>';
+
                                     echo '<th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">' . $row["Name"] . '</th>';
                                     echo '<td class="px-6 py-4">' . $row["Mobile"] . '</td>';
-                                    echo '<td class="px-6 py-4 text-center cursor-pointer">' . $row["City"] . ' </td>';
-                                    echo '<td class="px-6 py-4 text-center cursor-pointer">' . $row["Language"] . ' </td>';
-                                    echo '<td class="px-6 py-4 text-center cursor-pointer">' . $row["PAN"] . ' </td>';
-                                    echo '<td class="px-6 py-4 text-center cursor-pointer">' . $row["Category"] . ' </td>';
-                                    echo '<td class="px-6 py-4 text-center cursor-pointer">' . $row["Disposition"] . ' </td>';
-                                    echo '</tr>';
+                                    echo '<td class="px-6 py-4">' . $row["Disposition"] . '</td>';
+
+                                    echo '<td class="px-2 py-1 ml-0 cursor-pointer edit-btn text-center" 
+                                            data-modal-target="crud-modal" 
+                                            data-modal-toggle="crud-modal" 
+                                            data-id="' . $row['DataID'] . '"
+                                            data-name="' . htmlspecialchars($row['Name']) . '"
+                                            data-tel="' . htmlspecialchars($row['Mobile']) . '"
+                                            data-category="' . htmlspecialchars($row['Disposition']) . '">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil">
+                                                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                                                <path d="m15 5 4 4"/>
+                                            </svg>
+                                        </td>';
+                                    echo '';
                                 }
                                 echo '</tbody></table>';
                             } else {
-                                echo "No data available";
+                                echo "0 results";
                             }
-
-                            $conn->close();
                             ?>
+
 
 
                         </div>
@@ -196,6 +178,21 @@ include 'header.php';
                     </div>
                 </div>
             </div>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+                $(document).ready(function() {
+                    $('.edit-btn').click(function() {
+                        var name = $(this).data('name');
+                        var tel = $(this).data('tel');
+                        var category = $(this).data('category');
+
+                        $('#name').val(name);
+                        $('#tel').val(tel);
+                        $('#category').val(category);
+                    });
+                });
+            </script>
+
             <br><br><br>
             <div class="fixed bottom-0 z-50 w-full -translate-x-1/2 bg-white border-t border-gray-200 left-1/2 dark:bg-gray-700 dark:border-gray-600">
 
