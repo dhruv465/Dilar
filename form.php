@@ -253,6 +253,7 @@ include 'header.php';
                       <option value="Switch Off">Switch Off</option>
                       <option value="Already Carded">Already Carded</option>
                       <option value="Disconnect">Disconnect</option>
+                      <option value="Bio">Bio</option>
                     </select>
                   </div>
 
