@@ -35,8 +35,10 @@ include 'header.php';
                     </button>
                 </div>
                 <!-- Modal body -->
-                <form class="p-4 md:p-5">
+                <form class="p-4 md:p-5" action="update_disposition.php" method="POST">
                     <div class="grid gap-4 mb-4 grid-cols-2">
+                    <input type="hidden" name="data_id" id="data_id" value="">
+
                         <div class="col-span-2">
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
                             <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="" value="<?php echo htmlspecialchars($row['Name']); ?>" disabled>
@@ -58,9 +60,11 @@ include 'header.php';
                             </select>
                         </div>
                     </div>
+                    
                     <button type="submit" id="update-btn" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Update
                     </button>
+
                 </form>
 
 
@@ -182,6 +186,7 @@ include 'header.php';
             <script>
                 $(document).ready(function() {
                     $('.edit-btn').click(function() {
+                        var dataID = $(this).data('id'); // Fetch the data-id attribute
                         var name = $(this).data('name');
                         var tel = $(this).data('tel');
                         var category = $(this).data('category');
@@ -189,9 +194,13 @@ include 'header.php';
                         $('#name').val(name);
                         $('#tel').val(tel);
                         $('#category').val(category);
+                        $('#data_id').val(dataID); 
+                        // You can use the dataID variable here for further actions
+                        console.log('Data ID:', dataID);
                     });
                 });
             </script>
+
 
             <br><br><br>
             <div class="fixed bottom-0 z-50 w-full -translate-x-1/2 bg-white border-t border-gray-200 left-1/2 dark:bg-gray-700 dark:border-gray-600">

@@ -1,36 +1,33 @@
 <?php
 // Include your database connection code here
-include('dbconnection.php');
+include 'dbconnection.php'; // Assuming your database connection code is in dbconnection.php
 
-// Check if the request method is POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Retrieve data from the request
-    $dataID = $_POST['dataID'];
-    $category = $_POST['category'];
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Sanitize and validate input data
+    $dataID = $_POST['data_id']; // Assuming 'data_id' is sent from the form
+    $category = $_POST['category']; // Assuming 'category' is sent from the form
 
-    // Validate the data before updating (optional but recommended)
-    if (empty($dataID) || empty($category)) {
-        // Send an error response if required data is missing
-        echo json_encode(['success' => false, 'message' => 'Missing data']);
-        exit; // Terminate script execution
-    }
+    // Debugging: Print received data
+    echo "Data ID: $dataID, Category: $category";
 
-    // Prepare and execute the SQL statement to update the database
-    $sql = "UPDATE FormData SET Category = :category WHERE DataID = :dataID";
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':category', $category);
-    $stmt->bindParam(':dataID', $dataID);
+    // Update the disposition in the database
+    $sql = "UPDATE FormData SET Disposition = ? WHERE DataID = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, 'si', $category, $dataID);
 
-    // Check if the update was successful
-    if ($stmt->execute()) {
-        // Send a success response back to the client
-        echo json_encode(['success' => true]);
+    if (mysqli_stmt_execute($stmt)) {
+        echo "Database updated successfully"; // Debugging message
+        mysqli_stmt_close($stmt);
     } else {
-        // Send an error response back to the client
-        echo json_encode(['success' => false, 'message' => 'Failed to update category']);
+        echo "Error updating database: " . mysqli_error($conn); // Debugging error message
+        mysqli_stmt_close($stmt);
     }
+
+    // Redirect user to test.php after updating the disposition
+    header("Location: bucket.php");
+    exit(); // Stop further execution
 } else {
-    // Send an error response if the request method is not POST
-    echo json_encode(['success' => false, 'message' => 'Invalid request method']);
+    // Handle invalid requests or direct access to this script
+    echo "Invalid request";
 }
-?>
