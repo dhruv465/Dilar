@@ -57,6 +57,12 @@ include 'header.php';
                                 <option value="Wrong Number" <?php if ($row['Disposition'] == 'Wrong Number') echo 'selected'; ?>>Wrong Number</option>
                                 <option value="Follow-Up" <?php if ($row['Disposition'] == 'Follow-Up') echo 'selected'; ?>>Follow-Up</option>
                                 <option value="Ringing" <?php if ($row['Disposition'] == 'Ringing') echo 'selected'; ?>>Ringing</option>
+                                <option value="Not Eligible" <?php if ($row['Disposition'] == 'Not Eligible') echo 'selected'; ?>>Not Eligible</option>
+                            
+                                <option value="Bio" <?php if ($row['Disposition'] == 'Bio') echo 'selected'; ?>>Bio</option>
+                            
+                                <option value="Vkyc Done" <?php if ($row['Disposition'] == 'Vkyc Done') echo 'selected'; ?>>Vkyc Done</option>
+                            
                             </select>
                         </div>
                     </div>
