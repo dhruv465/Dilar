@@ -50,19 +50,18 @@ include 'header.php';
                         <div class="col-span-2 sm:col-span-1">
                             <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Disposition</label>
                             <select id="category" name="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                <option value="Select Option">Select Option</option>
-                                <option value="Sales" <?php if ($row['Disposition'] == 'Sales') echo 'selected'; ?>>Sales</option>
-                                <option value="Not Interested" <?php if ($row['Disposition'] == 'Not Interested') echo 'selected'; ?>>Not Interested</option>
-                                <option value="Call Back" <?php if ($row['Disposition'] == 'Call Back') echo 'selected'; ?>>Call Back</option>
-                                <option value="Wrong Number" <?php if ($row['Disposition'] == 'Wrong Number') echo 'selected'; ?>>Wrong Number</option>
-                                <option value="Follow-Up" <?php if ($row['Disposition'] == 'Follow-Up') echo 'selected'; ?>>Follow-Up</option>
-                                <option value="Ringing" <?php if ($row['Disposition'] == 'Ringing') echo 'selected'; ?>>Ringing</option>
-                                <option value="Not Eligible" <?php if ($row['Disposition'] == 'Not Eligible') echo 'selected'; ?>>Not Eligible</option>
-                            
-                                <option value="Bio" <?php if ($row['Disposition'] == 'Bio') echo 'selected'; ?>>Bio</option>
-                            
-                                <option value="Vkyc Done" <?php if ($row['Disposition'] == 'Vkyc Done') echo 'selected'; ?>>Vkyc Done</option>
-                            
+                            <option value="Sales" <?php if (isset($row['Disposition']) && $row['Disposition'] == 'Sales') echo 'selected'; ?>>Sales</option>
+<option value="Not Interested" <?php if (isset($row['Disposition']) && $row['Disposition'] == 'Not Interested') echo 'selected'; ?>>Not Interested</option>
+<option value="Call Back" <?php if (isset($row['Disposition']) && $row['Disposition'] == 'Call Back') echo 'selected'; ?>>Call Back</option>
+<option value="Wrong Number" <?php if (isset($row['Disposition']) && $row['Disposition'] == 'Wrong Number') echo 'selected'; ?>>Wrong Number</option>
+<option value="Follow-Up" <?php if (isset($row['Disposition']) && $row['Disposition'] == 'Follow-Up') echo 'selected'; ?>>Follow-Up</option>
+<option value="Ringing" <?php if (isset($row['Disposition']) && $row['Disposition'] == 'Ringing') echo 'selected'; ?>>Ringing</option>
+<option value="Not Eligible" <?php if (isset($row['Disposition']) && $row['Disposition'] == 'Not Eligible') echo 'selected'; ?>>Not Eligible</option>
+
+<option value="Bio" <?php if (isset($row['Disposition']) && $row['Disposition'] == 'Bio') echo 'selected'; ?>>Bio</option>
+
+<option value="Vkyc Done" <?php if (isset($row['Disposition']) && $row['Disposition'] == 'Vkyc Done') echo 'selected'; ?>>Vkyc Done</option>
+
                             </select>
                         </div>
                     </div>
