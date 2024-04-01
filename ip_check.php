@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 
 // Your database configuration
 include('./dbconnection.php');
