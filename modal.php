@@ -3,7 +3,11 @@
 // Include the common header file
 include 'header.php';
 
+include('ip_check.php');
+checkIPAllowed();
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
