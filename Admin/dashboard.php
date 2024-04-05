@@ -14,9 +14,76 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
     <link href="./src/output.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body class="bg-gray-50 dark:bg-slate-900">
+    <div id="popup-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+                <div class="p-4 md:p-5 text-center">
+                    <div class="flex justify-center space-x-3 mt-4" data-hs-pin-input>
+                        <input type="text" id="pin1" class="block w-[38px] text-center border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" data-hs-pin-input-item autofocus>
+                        <input type="text" id="pin2" class="block w-[38px] text-center border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" data-hs-pin-input-item>
+                        <input type="text" id="pin3" class="block w-[38px] text-center border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" data-hs-pin-input-item>
+                        <input type="text" id="pin4" class="block w-[38px] text-center border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" data-hs-pin-input-item>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script>
+        // Function to check if the entered pin is correct
+        function verifyPin() {
+            var enteredPin = document.getElementById("pin1").value + document.getElementById("pin2").value + document.getElementById("pin3").value + document.getElementById("pin4").value;
+            var correctPin = "8520"; // Hardcoded correct pin
+
+            if (enteredPin === correctPin) {
+                window.location.href = "../register.php"; // Redirect to register.php if the pin is correct
+            } else {
+                alert("Incorrect PIN. Please try again.");
+                // Clear the input fields for another attempt
+                document.getElementById("pin1").value = "";
+                document.getElementById("pin2").value = "";
+                document.getElementById("pin3").value = "";
+                document.getElementById("pin4").value = "";
+            }
+        }
+
+        // Add event listener to each input field to check for Enter key press
+        document.getElementById("pin1").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                document.getElementById("pin2").focus(); // Move focus to the next input field
+            }
+        });
+
+        document.getElementById("pin2").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                document.getElementById("pin3").focus(); // Move focus to the next input field
+            }
+        });
+
+        document.getElementById("pin3").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                document.getElementById("pin4").focus(); // Move focus to the next input field
+            }
+        });
+
+        document.getElementById("pin4").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                verifyPin(); // Call the verifyPin function when Enter key is pressed in the last input field
+            }
+        });
+    </script>
+
+
     <!-- ========== HEADER ========== -->
     <header class="sticky top-0 inset-x-0 flex flex-wrap sm:justify-start sm:flex-nowrap z-[48] w-full bg-white border-b text-sm py-2.5 sm:py-4 lg:ps-64 dark:bg-gray-800 dark:border-gray-700">
         <nav class="flex basis-full items-center w-full mx-auto px-4 sm:px-6 md:px-8" aria-label="Global">
@@ -35,24 +102,65 @@
                 </div>
 
                 <div class="hidden sm:block">
-                    <form method="POST" action="">
+                    <form method="POST" action="" class="flex items-center space-x-4">
                         <label for="search" class="sr-only">Search</label>
+                        <input type="checkbox" class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" id="search_name" name="search_name" value="1">
                         <div class="relative">
-                            <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-4">
+                            <div class="absolute inset-y-0 left-0 flex items-center pointer-events-none z-20 ps-4">
                                 <svg class="flex-shrink-0 size-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <circle cx="11" cy="11" r="8" />
                                     <path d="m21 21-4.3-4.3" />
                                 </svg>
                             </div>
-                            <input type="text" id="search" name="search" class="py-2 px-4 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" placeholder="Search">
+                            <input type="text" id="search" name="search" class="py-2 px-4 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" placeholder="Search Username">
+                        </div>
+                        <input type="checkbox" class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" id="search_category" name="search_category" value="1">
+                        <select name="category" class="py-2 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600">
+                            <option value="" selected>Select Category</option>
+                            <option value="HDFC Physical">HDFC Physical</option>
+                            <option value="HDFC Adobe Pan India">HDFC Adobe Pan India</option>
+                            <option value="IDFC Vkyc Old">IDFC Vkyc Old</option>
+                            <option value="IDFC Vkyc New">IDFC Vkyc New</option>
+                            <option value="LIC">LIC</option>
+                            <option value="Loan">Loan</option>
+                            <option value="IDFC Drop-Off New">IDFC Drop-Off New</option>
+                            <option value="IDFC Drop-Off Old">IDFC Drop-Off Old</option>
+                        </select>
 
+                        <input type="checkbox" class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" id="search_date" name="search_date" value="1">
+                        <div date-rangepicker class="flex items-center">
+                            <div class="relative">
+                                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                    </svg>
+                                </div>
+                                <input name="start" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date start">
+                            </div>
+                            <span class="mx-4 text-gray-500">to</span>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                    </svg>
+                                </div>
+                                <input name="end" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date end">
+                            </div>
                         </div>
 
+
+
+
+
+                        <button type="submit" class="py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Search</button>
                     </form>
+
                 </div>
 
                 <div class="flex flex-row items-center justify-end gap-2">
                     <div class="hs-dropdown relative inline-flex [--placement:bottom-right]">
+
+                        &nbsp; &nbsp;
                         <button id="hs-dropdown-with-header" type="button" class="w-[2.375rem] h-[2.375rem] inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-gray-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                             <img class="inline-block size-[38px] rounded-full ring-2 ring-white dark:ring-gray-800" src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80" alt="Image Description">
                         </button>
@@ -77,20 +185,6 @@
                 </svg>
             </button>
             <!-- End Navigation Toggle -->
-
-            <!-- Breadcrumb -->
-            <ol class="ms-3 flex items-center whitespace-nowrap" aria-label="Breadcrumb">
-                <li class="flex items-center text-sm text-gray-800 dark:text-gray-400">
-                    Application Layout
-                    <svg class="flex-shrink-0 mx-3 overflow-visible size-2.5 text-gray-400 dark:text-gray-600" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5 1L10.6869 7.16086C10.8637 7.35239 10.8637 7.64761 10.6869 7.83914L5 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                    </svg>
-                </li>
-                <li class="text-sm font-semibold text-gray-800 truncate dark:text-gray-400" aria-current="page">
-                    Dashboard
-                </li>
-            </ol>
-            <!-- End Breadcrumb -->
         </div>
     </div>
     <!-- End Sidebar Toggle -->
@@ -137,12 +231,43 @@
     include 'dbconnection.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $search_date = isset($_POST['search_date']) ? $_POST['search_date'] : null;
+        $search_name = isset($_POST['search_name']) ? $_POST['search_name'] : null;
+        $search_category = isset($_POST['search_category']) ? $_POST['search_category'] : null;
+
         // Process the form data and sanitize input
         $search = isset($_POST['search']) ? $_POST['search'] : '';
         $search = $conn->real_escape_string($search);
 
-        // Query to fetch counts for the searched username
-        $query = "SELECT Disposition, COUNT(*) AS Count FROM FormData WHERE Username = '$search' GROUP BY Disposition";
+        $category = isset($_POST['category']) ? $_POST['category'] : '';
+        $category = $conn->real_escape_string($category);
+
+        $start_date = isset($_POST['start']) ? $_POST['start'] : '';
+        $end_date = isset($_POST['end']) ? $_POST['end'] : '';
+
+        // Validate and format date inputs (assuming date format is YYYY-MM-DD)
+        $start_date = date('Y-m-d', strtotime($start_date));
+        $end_date = date('Y-m-d', strtotime($end_date));
+
+        // Query construction based on selected search options
+        $query = "SELECT Disposition, COUNT(*) AS Count 
+              FROM FormData 
+              WHERE 1=1";
+
+        if ($search_name) {
+            $query .= " AND username = '$search'";
+        }
+
+        if ($search_category) {
+            $query .= " AND Category = '$category'";
+        }
+
+        if ($search_date) {
+            $query .= " AND DispoUpdate BETWEEN '$start_date' AND '$end_date'";
+        }
+
+        $query .= " GROUP BY Disposition";
+
         $result = $conn->query($query);
 
         // Check if query was successful
@@ -185,6 +310,9 @@
     // Close the database conn
     $conn->close();
     ?>
+
+
+
 
 
     <div class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:ps-72">
@@ -598,12 +726,112 @@
                                 <div>
                                     <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">
                                         Users
+
                                     </h2>
 
                                 </div>
+                                <?php
+                                // Check if a message is passed as a query parameter
+                                if (isset($_GET['message'])) {
+                                    $message = $_GET['message'];
+                                    // Check if the message is a success or an error
+                                    $alertClass = strpos($message, 'successfully') !== false ? 'bg-teal-50 border border-teal-200 text-sm text-teal-800 rounded-lg p-4 dark:bg-teal-800/10 dark:border-teal-900 dark:text-teal-500' : 'bg-red-50 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500';
+                                    // Display the message with the specified style
+                                    echo '<div id="dismiss-alert" class="hs-removing:translate-x-5 hs-removing:opacity-0 transition duration-300 ' . $alertClass . '" role="alert">';
+                                    echo '<div class="flex">';
+                                    echo '<div class="flex-shrink-0">';
+                                    echo '<svg class="flex-shrink-0 size-4 text-blue-600 mt-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>';
+                                    echo '</div>';
+                                    echo '<div class="ms-2">';
+                                    echo '<div class="text-sm font-medium">';
+                                    echo htmlspecialchars($message);
+                                    echo '</div>';
+                                    echo '</div>';
+
+                                    echo '</div>';
+                                    echo '</div>';
+                                }
+                                ?>
+
+
                                 <div>
                                     <div class="inline-flex gap-x-2">
-                                        <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">
+                                        <label for="toggle" class="flex items-center cursor-pointer">
+                                            <span class="ml-3 text-gray-700 font-medium">Personal Network</span>&nbsp;&nbsp;
+                                            <span class="relative">
+                                                <input type="checkbox" id="ip-toggle" class="relative w-[3.25rem] h-7 p-px bg-green-500 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-blue-600 checked:border-blue-600 focus:checked:border-blue-600 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-600 before:inline-block before:size-6 before:bg-white checked:before:bg-blue-200 before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-gray-400 dark:checked:before:bg-blue-200">
+                                            </span>
+                                            <span class="ml-3 text-gray-700 font-medium">Wifi</span>
+                                        </label>
+                                    </div>
+
+                                    <script>
+                                        $(document).ready(function() {
+                                            var isChecked = false;
+
+                                            // Check the IP status on page load
+                                            $.ajax({
+                                                type: 'GET',
+                                                url: 'get_ip_status.php', // Replace this with your server-side script URL to get the IP status
+                                                success: function(response) {
+                                                    var ipStatus = parseInt(response); // Assuming the server responds with the IP status as a number
+                                                    isChecked = ipStatus === 1;
+                                                    $('#ip-toggle').prop('checked', isChecked);
+                                                },
+                                                error: function(xhr, status, error) {
+                                                    console.error('Error getting IP Status:', error);
+                                                }
+                                            });
+
+                                            $('#ip-toggle').change(function() {
+                                                isChecked = $(this).prop('checked');
+                                                if (isChecked) {
+                                                    promptForPasswordAndToggle();
+                                                } else {
+                                                    promptForPasswordAndToggle();
+                                                }
+                                            });
+
+                                            function promptForPasswordAndToggle() {
+                                                var password = prompt('Enter password:');
+                                                if (password !== null && password.trim() === 'proteinshake@2023') {
+                                                    updateIPStatus(isChecked ? 1 : 0);
+                                                } else {
+                                                    alert('Incorrect password. Please try again.');
+                                                    $('#ip-toggle').prop('checked', !isChecked); // Revert checkbox state
+                                                }
+                                            }
+
+                                            function updateIPStatus(status) {
+                                                $.ajax({
+                                                    type: 'POST',
+                                                    url: 'update_ip_status.php', // Replace this with your server-side script URL
+                                                    data: {
+                                                        ipStatus: status
+                                                    },
+                                                    success: function(response) {
+                                                        console.log('IP Status updated successfully');
+                                                    },
+                                                    error: function(xhr, status, error) {
+                                                        console.error('Error updating IP Status:', error);
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    </script>
+
+
+
+
+                                    &nbsp;
+                                    <div class="inline-flex gap-x-2" data-modal-target="medium-modal" data-modal-toggle="medium-modal">
+                                        <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#"><!--- ../register.php" Add user button -->
+
+                                            Update Password
+                                        </a>
+                                    </div>
+                                    <div class="inline-flex gap-x-2" data-modal-target="popup-modal" data-modal-toggle="popup-modal">
+                                        <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#"><!--- ../register.php" Add user button -->
                                             <svg class="flex-shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                                                 <path d="M2.63452 7.50001L13.6345 7.5M8.13452 13V2" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                                             </svg>
@@ -617,6 +845,8 @@
                                 <div class="relative w-full max-w-lg max-h-full">
                                     <!-- Modal content -->
                                     <main class="w-full max-w-md mx-auto p-6">
+
+
                                         <div class="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
                                             <div class="p-4 sm:p-7">
                                                 <div class="text-center">
@@ -626,32 +856,70 @@
 
                                                 <div class="mt-5">
                                                     <!-- Form -->
-                                                    <form>
+                                                    <form method="POST" action="update_password.php" id="update-password-form">
                                                         <div class="grid gap-y-4">
-                                                            <!-- Form Group -->
+                                                            <!-- Username -->
                                                             <div>
-                                                                <label for="text" class="block text-sm mb-2 dark:text-white">New Password</label>
+                                                                <label for="username" class="block text-sm mb-2 dark:text-white">Username</label>
+                                                                <input type="text" id="username" name="username" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" required>
+                                                            </div>
+                                                            <!-- End Username -->
+
+                                                            <!-- New Password -->
+                                                            <div>
+                                                                <label for="new_password" class="block text-sm mb-2 dark:text-white">New Password</label>
                                                                 <div class="relative">
-                                                                    <input type="text" id="text" name="text" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" required aria-describedby="email-error">
-                                                                    <div class="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
-                                                                        <svg class="size-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
-                                                                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-                                                                        </svg>
-                                                                    </div>
+                                                                    <input type="password" id="new_password" name="new_password" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" required aria-describedby="new_password_error">
                                                                 </div>
                                                             </div>
-                                                            <!-- End Form Group -->
+                                                            <!-- End New Password -->
 
+                                                            <!-- Confirm Password -->
+                                                            <div>
+                                                                <label for="confirm_password" class="block text-sm mb-2 dark:text-white">Confirm New Password</label>
+                                                                <input type="password" id="confirm_password" name="confirm_password" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" required aria-describedby="confirm_password_error">
+                                                            </div>
+                                                            <!-- End Confirm Password -->
                                                             <button type="submit" class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">Reset password</button>
                                                         </div>
                                                     </form>
                                                     <!-- End Form -->
+
                                                 </div>
                                             </div>
                                         </div>
                                     </main>
                                 </div>
                             </div>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const updateButtons = document.querySelectorAll('.update-password-btn');
+                                    const modalForm = document.querySelector('#update-password-form');
+                                    const userIdInput = document.querySelector('#user_id');
+
+                                    updateButtons.forEach(button => {
+                                        button.addEventListener('click', function() {
+                                            const userId = button.dataset.userid;
+                                            console.log('User ID:', userId); // Log the user ID to the console
+
+                                            // Set the user ID in the hidden input field of the modal form
+                                            userIdInput.value = userId;
+
+                                            // Open or show the modal
+                                            const modal = document.querySelector(button.dataset.modalTarget);
+                                            modal.classList.add('open');
+                                        });
+                                    });
+
+                                    // Optional: Close the modal when the form is submitted
+                                    modalForm.addEventListener('submit', function() {
+                                        const modal = document.querySelector('#medium-modal');
+                                        modal.classList.remove('open');
+                                    });
+                                });
+                            </script>
+
+
                             <!-- Table -->
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead class="bg-gray-50 dark:bg-slate-800">
@@ -672,13 +940,13 @@
                                             </div>
                                         </th>
 
-                                        <th scope="col" class="px-6 py-3 text-start">
+                                        <!-- <th scope="col" class="px-6 py-3 text-start">
                                             <div class="flex items-center gap-x-2">
                                                 <span class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
                                                     Password
                                                 </span>
                                             </div>
-                                        </th>
+                                        </th> -->
 
                                         <th scope="col" class="px-6 py-3 text-start">
                                             <div class="flex items-center gap-x-2">
@@ -733,13 +1001,15 @@
                                         echo '</div>';
                                         echo '</td>';
 
-                                        echo '<td class="h-px w-72 whitespace-nowrap">';
-                                        echo '<div class="px-6 py-3">';
-                                        echo '<span class="block text-sm font-semibold text-gray-800 dark:text-gray-200 ">';
-                                        echo '<button data-modal-target="medium-modal" data-modal-toggle="medium-modal" class="bg-blue-700 p-2 text-white rounded-xl ">Update Password</button>';
-                                        echo '</span>';
-                                        echo '</div>';
-                                        echo '</td>';
+                                        // echo '<td class="h-px w-72 whitespace-nowrap">';
+                                        // echo '<div class="px-6 py-3">';
+                                        // echo '<span class="block text-sm font-semibold text-gray-800 dark:text-gray-200">';
+                                        // echo '<button data-userid="' . $userId . '" data-modal-target="medium-modal" data-modal-toggle="medium-modal" class="bg-blue-700 p-2 text-white rounded-xl update-password-btn">Update Password</button>';
+                                        // echo '</span>';
+                                        // echo '</div>';
+                                        // echo '</td>';
+
+
                                         echo '<td class="size-px whitespace-nowrap">';
                                         echo '<div class="px-6 py-3">';
                                         echo '<span class="py-1 px-1.5 inline-flex items-center gap-x-1 text-xs font-medium ';
@@ -801,21 +1071,57 @@
                 </div>
             </div>
             <!-- End Card -->
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const hardcodedPassword = '1234'; // Hardcoded password for validation
+
+                    // Select all buttons with the data-modal-target attribute
+                    const updatePasswordBtns = document.querySelectorAll('[data-modal-target="medium-modal"]');
+                    updatePasswordBtns.forEach(button => {
+                        button.addEventListener('click', function(event) {
+                            event.preventDefault(); // Prevent the default behavior of the button
+
+                            // Ask for password validation before showing the modal
+                            const enteredPassword = prompt('Please enter your password:');
+                            if (enteredPassword === hardcodedPassword) {
+                                // If the entered password matches the hardcoded password, show the modal
+                                const modal = document.getElementById('medium-modal');
+                                modal.classList.remove('hidden'); // Show the modal
+                                modal.focus(); // Set focus to the modal
+                            } else {
+                                alert('Incorrect password. Redirecting to dashboard...');
+                                window.location.href = 'dashboard.php'; // Redirect to dashboard.php
+                            }
+                        });
+                    });
+                });
+            </script>
         </div>
         <!-- End Table Section -->
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const hardcodedPin = '1234'; // Hardcoded PIN for validation
+
             const checkboxes = document.querySelectorAll('#hs-xs-switch');
             checkboxes.forEach(checkbox => {
                 checkbox.addEventListener('click', function() {
                     const userID = this.getAttribute('data-userid');
-                    const isChecked = this.checked ? 1 : 0;
-                    updateSessionActive(userID, isChecked);
+                    // Ask for PIN validation before toggling the checkbox
+                    const enteredPin = prompt('Please enter your PIN:');
+                    if (enteredPin === hardcodedPin) {
+                        // If the entered PIN matches the hardcoded PIN, proceed with toggling the checkbox
+                        const isChecked = this.checked ? 1 : 0;
+                        toggleSessionActive(userID, isChecked);
+                    } else {
+                        alert('Invalid PIN. Access denied.');
+                        // Uncheck the checkbox to revert the change
+                        this.checked = !this.checked;
+                    }
                 });
             });
 
-            function updateSessionActive(userID, isChecked) {
+            function toggleSessionActive(userID, isChecked) {
                 // Send AJAX request to update SessionActive value in the database
                 const xhr = new XMLHttpRequest();
                 xhr.open('POST', 'update_session_active.php', true);
@@ -830,7 +1136,7 @@
             }
         });
     </script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <script src="./node_modules/preline/dist/preline.js"></script>
 </body>

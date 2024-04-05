@@ -2,6 +2,7 @@
 
 // Include the common header file
 include 'header.php';
+
 include('ip_check.php');
 checkIPAllowed();
 ?>
