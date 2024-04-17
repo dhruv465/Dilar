@@ -43,7 +43,7 @@ if ($result_ip_status && mysqli_num_rows($result_ip_status) > 0) {
                 </div>
                 <div class="ms-2">
                     <div class="text-sm font-medium">
-                        Access denied. Your IP address is not authorized.
+                    Access denied. Your IP address ('.$visitorIP.') is not authorized to access this page.
                     </div>
                 </div>
             </div>
